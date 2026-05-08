@@ -540,12 +540,6 @@ namespace VDF.GUI.Data {
 			path = ResolveSettingsPath(path);
 			if (!File.Exists(path)) return;
 			instance = JsonSerializer.Deserialize<SettingsFile>(File.ReadAllBytes(path));
-			if (instance != null && instance.Includes.Count > 0 && instance.Includes[0] is string) {
-				var oldList = instance.Includes.Select(s => new ScanDirectory(s)).ToList();
-				instance.Includes.Clear();
-				foreach (var item in oldList)
-					instance.Includes.Add(item);
-			}
 		}
 
 		static bool LoadOldSettings(string? path) {
