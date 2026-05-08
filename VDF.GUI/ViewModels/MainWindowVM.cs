@@ -1171,8 +1171,12 @@ Non-Windows setup:
 			Scanner.Settings.PartialClipRequireVisualMatch = SettingsFile.Instance.PartialClipRequireVisualMatch;
 			Scanner.Settings.PartialClipVisualThreshold = SettingsFile.Instance.PartialClipVisualThresholdPercent / 100.0;
 			Scanner.Settings.IncludeList.Clear();
-			foreach (var s in SettingsFile.Instance.Includes)
-				Scanner.Settings.IncludeList.Add(s);
+			Scanner.Settings.ReferenceList.Clear();
+			foreach (var s in SettingsFile.Instance.Includes) {
+				Scanner.Settings.IncludeList.Add(s.Path);
+				if (s.IsReference)
+					Scanner.Settings.ReferenceList.Add(s.Path);
+			}
 			Scanner.Settings.BlackList.Clear();
 			foreach (var s in SettingsFile.Instance.Blacklists)
 				Scanner.Settings.BlackList.Add(s);

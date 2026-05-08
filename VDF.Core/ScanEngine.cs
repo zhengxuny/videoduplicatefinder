@@ -454,6 +454,20 @@ namespace VDF.Core {
 			return System.IO.Enumeration.FileSystemName.MatchesSimpleExpression(blacklistEntry, folderPath);
 		}
 
+		bool IsInReferenceDirectory(string folderPath) {
+			if (Settings.ReferenceList.Count == 0) return false;
+			foreach (var refPath in Settings.ReferenceList) {
+				if (!folderPath.StartsWith(refPath, StringComparison.OrdinalIgnoreCase))
+					continue;
+				if (folderPath.Length == refPath.Length)
+					return true;
+				string relativePath = Path.GetRelativePath(refPath, folderPath);
+				if (!relativePath.StartsWith('.') && !Path.IsPathRooted(relativePath))
+					return true;
+			}
+			return false;
+		}
+
 		async Task GatherInfos() {
 			try {
 				InitProgress(DatabaseUtils.Database.Count);
@@ -798,6 +812,16 @@ namespace VDF.Core {
 				bucket.Add(entry);
 			}
 
+			var referenceEntries = new HashSet<FileEntry>();
+			if (Settings.ReferenceList.Count > 0) {
+				foreach (var entry in ScanList) {
+					if (IsInReferenceDirectory(entry.Folder))
+						referenceEntries.Add(entry);
+				}
+				if (referenceEntries.Count > 0)
+					Logger.Instance.Info($"Reference directories: {referenceEntries.Count:N0} file(s) excluded from internal comparison.");
+			}
+
 			void MergeDuplicate(FileEntry entry, FileEntry compItem, float difference, DuplicateFlags flags) {
 				lock (duplicateDict) {
 					bool foundBase = duplicateDict.TryGetValue(entry.Path, out DuplicateItem? existingBase);
@@ -909,6 +933,8 @@ namespace VDF.Core {
 						if (Settings.FolderMatchMode == FolderMatchMode.DifferentFolderOnly &&
 							SameFolderAtDepth(entry.Folder, compItem.Folder, Settings.SameFolderDepth))
 							continue;
+						if (referenceEntries.Count > 0 && referenceEntries.Contains(entry) && referenceEntries.Contains(compItem))
+							continue;
 
 						isDuplicate = TryCheckDuplicate(entry, compItem, flippedGrayBytes, out difference, out flags);
 
@@ -943,6 +969,8 @@ namespace VDF.Core {
 							continue;
 						if (Settings.FolderMatchMode == FolderMatchMode.DifferentFolderOnly &&
 							SameFolderAtDepth(entry.Folder, compItem.Folder, Settings.SameFolderDepth))
+							continue;
+						if (referenceEntries.Count > 0 && referenceEntries.Contains(entry) && referenceEntries.Contains(compItem))
 							continue;
 						bool isDuplicate = TryCheckDuplicate(entry, compItem, flippedGrayBytes, out difference, out flags);
 
@@ -1000,6 +1028,8 @@ namespace VDF.Core {
 							continue;
 						if (Settings.FolderMatchMode == FolderMatchMode.DifferentFolderOnly &&
 							SameFolderAtDepth(entry.Folder, compItem.Folder, Settings.SameFolderDepth))
+							continue;
+						if (referenceEntries.Count > 0 && referenceEntries.Contains(entry) && referenceEntries.Contains(compItem))
 							continue;
 
 						bool isDuplicate = TryCheckDuplicate(entry, compItem, flippedGrayBytes, out difference, out flags);
@@ -1128,12 +1158,16 @@ namespace VDF.Core {
 					FileEntry source = videos[i];
 					double sourceSec = (source.mediaInfo?.Duration ?? TimeSpan.Zero).TotalSeconds;
 					if (sourceSec < 1.0) return;
+					bool sourceIsRef = Settings.ReferenceList.Count > 0 && IsInReferenceDirectory(source.Folder);
 
 					for (int j = i + 1; j < videos.Count; j++) {
 						if (cancelationTokenSource.IsCancellationRequested) break;
 						FileEntry clip = videos[j];
 						double clipSec = (clip.mediaInfo?.Duration ?? TimeSpan.Zero).TotalSeconds;
 						if (clipSec < 1.0) continue;
+
+						if (sourceIsRef && Settings.ReferenceList.Count > 0 && IsInReferenceDirectory(clip.Folder))
+							continue;
 
 						// Pre-filter 1: clip must be at least PartialClipMinRatio of source
 						if (clipSec / sourceSec < Settings.PartialClipMinRatio) continue;

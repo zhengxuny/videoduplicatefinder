@@ -24,6 +24,7 @@ namespace VDF.Web.Services {
 		/// <summary>JSON-serializable mirror of the settings relevant to VDF.Web.</summary>
 		public sealed class Dto {
 			public List<string> IncludeList { get; set; } = new();
+			public List<string> ReferenceList { get; set; } = new();
 			public List<string> BlackList { get; set; } = new();
 			public byte Threshhold { get; set; } = 5;
 			public float Percent { get; set; } = 96f;
@@ -84,6 +85,7 @@ namespace VDF.Web.Services {
 				var dto = JsonSerializer.Deserialize<Dto>(File.ReadAllText(SettingsPath), JsonOpts);
 				if (dto == null) return false;
 				foreach (var p in dto.IncludeList) s.IncludeList.Add(p);
+				foreach (var p in dto.ReferenceList) s.ReferenceList.Add(p);
 				foreach (var p in dto.BlackList) s.BlackList.Add(p);
 				s.Threshhold = dto.Threshhold;
 				s.Percent = dto.Percent;
@@ -120,6 +122,7 @@ namespace VDF.Web.Services {
 				Directory.CreateDirectory(Path.GetDirectoryName(SettingsPath)!);
 				var dto = new Dto {
 					IncludeList = s.IncludeList.ToList(),
+					ReferenceList = s.ReferenceList.ToList(),
 					BlackList = s.BlackList.ToList(),
 					Threshhold = s.Threshhold,
 					Percent = s.Percent,

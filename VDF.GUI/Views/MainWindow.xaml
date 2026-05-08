@@ -1468,51 +1468,69 @@
                                             <TextBlock Opacity="0.6" FontSize="11" TextWrapping="Wrap" Margin="0,2,0,0"
                                                        Text="{Binding Source={x:Static local:App.Lang}, Path=[MainWindow.Settings.SearchDirectoriesHint]}" />
                                         </StackPanel>
-                                        <Grid Grid.Row="1" Grid.Column="0" RowDefinitions="Auto,*,Auto">
-                                            <Menu Grid.Row="0" MinHeight="30">
-                                                <MenuItem Command="{Binding AddIncludesToListCommand}">
-                                                    <MenuItem.Header>
-                                                        <StackPanel Orientation="Horizontal">
-                                                            <Viewbox Width="16" Height="16">
-                                                                <Canvas Width="24" Height="24">
-                                                                    <Path Data="M12 2C6.49 2 2 6.49 2 12C2 17.51 6.49 22 12 22C17.51 22 22 17.51 22 12C22 6.49 17.51 2 12 2ZM16 12.75H12.75V16C12.75 16.41 12.41 16.75 12 16.75C11.59 16.75 11.25 16.41 11.25 16V12.75H8C7.59 12.75 7.25 12.41 7.25 12C7.25 11.59 7.59 11.25 8 11.25H11.25V8C11.25 7.59 11.59 7.25 12 7.25C12.41 7.25 12.75 7.59 12.75 8V11.25H16C16.41 11.25 16.75 11.59 16.75 12C16.75 12.41 16.41 12.75 16 12.75Z" Fill="LimeGreen" />
-                                                                </Canvas>
-                                                            </Viewbox>
-                                                            <TextBlock Margin="5,0,0,0" VerticalAlignment="Center"
-                                                                       Text="{Binding Source={x:Static local:App.Lang}, Path=[Dialog.Add]}" />
-                                                        </StackPanel>
-                                                    </MenuItem.Header>
-                                                </MenuItem>
-                                                <MenuItem Command="{Binding RemoveIncludesFromListCommand}" CommandParameter="{Binding ElementName=ListboxIncludelist}">
-                                                    <MenuItem.Header>
-                                                        <StackPanel Orientation="Horizontal">
-                                                            <Viewbox Width="16" Height="16">
-                                                                <Canvas Width="24" Height="24">
-                                                                    <Path Data="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21ZM7 13H17V11H7V13Z" Fill="Red" />
-                                                                </Canvas>
-                                                            </Viewbox>
-                                                            <TextBlock Margin="5,0,0,0" VerticalAlignment="Center"
-                                                                       Text="{Binding Source={x:Static local:App.Lang}, Path=[Dialog.Remove]}" />
-                                                        </StackPanel>
-                                                    </MenuItem.Header>
-                                                </MenuItem>
-                                                <MenuItem Command="{Binding ClearIncludesListCommand}">
-                                                    <MenuItem.Header>
-                                                        <StackPanel Orientation="Horizontal">
-                                                            <Viewbox Width="16" Height="16">
-                                                                <Canvas Width="24" Height="24">
-                                                                    <Path Data="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21ZM7 13H17V11H7V13Z" Fill="Red" />
-                                                                </Canvas>
-                                                            </Viewbox>
-                                                            <TextBlock Margin="5,0,0,0" VerticalAlignment="Center"
-                                                                       Text="{Binding Source={x:Static local:App.Lang}, Path=[Dialog.ClearAll]}" />
-                                                        </StackPanel>
-                                                    </MenuItem.Header>
-                                                </MenuItem>
-                                            </Menu>
-                                            <ListBox Name="ListboxIncludelist" Grid.Row="1" BorderThickness="1"
-                                                     DragDrop.AllowDrop="True"
-                                                     ItemsSource="{Binding Source={x:Static Settings:SettingsFile.Instance}, Path=Includes}" />
+                                        <Grid Grid.Row="1" Grid.Column="0" RowDefinitions="Auto,*">
+                                            <Grid Grid.Row="0" ColumnDefinitions="*,Auto" Margin="0,0,0,4">
+                                                <TextBlock FontWeight="Bold" VerticalAlignment="Center"
+                                                           Text="{Binding Source={x:Static local:App.Lang}, Path=[MainWindow.Settings.SearchDirectories]}" />
+                                                <TextBlock Grid.Column="1" VerticalAlignment="Center" FontSize="11" Opacity="0.7"
+                                                           Text="{Binding Source={x:Static local:App.Lang}, Path=[MainWindow.Settings.Reference]}" />
+                                            </Grid>
+                                            <Grid Grid.Row="1" RowDefinitions="Auto,*">
+                                                <Menu Grid.Row="0" MinHeight="30">
+                                                    <MenuItem Command="{Binding AddIncludesToListCommand}">
+                                                        <MenuItem.Header>
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <Viewbox Width="16" Height="16">
+                                                                    <Canvas Width="24" Height="24">
+                                                                        <Path Data="M12 2C6.49 2 2 6.49 2 12C2 17.51 6.49 22 12 22C17.51 22 22 17.51 22 12C22 6.49 17.51 2 12 2ZM16 12.75H12.75V16C12.75 16.41 12.41 16.75 12 16.75C11.59 16.75 11.25 16.41 11.25 16V12.75H8C7.59 12.75 7.25 12.41 7.25 12C7.25 11.59 7.59 11.25 8 11.25H11.25V8C11.25 7.59 11.59 7.25 12 7.25C12.41 7.25 12.75 7.59 12.75 8V11.25H16C16.41 11.25 16.75 11.59 16.75 12C16.75 12.41 16.41 12.75 16 12.75Z" Fill="LimeGreen" />
+                                                                    </Canvas>
+                                                                </Viewbox>
+                                                                <TextBlock Margin="5,0,0,0" VerticalAlignment="Center"
+                                                                           Text="{Binding Source={x:Static local:App.Lang}, Path=[Dialog.Add]}" />
+                                                            </StackPanel>
+                                                        </MenuItem.Header>
+                                                    </MenuItem>
+                                                    <MenuItem Command="{Binding RemoveIncludesFromListCommand}" CommandParameter="{Binding ElementName=ListboxIncludelist}">
+                                                        <MenuItem.Header>
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <Viewbox Width="16" Height="16">
+                                                                    <Canvas Width="24" Height="24">
+                                                                        <Path Data="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21ZM7 13H17V11H7V13Z" Fill="Red" />
+                                                                    </Canvas>
+                                                                </Viewbox>
+                                                                <TextBlock Margin="5,0,0,0" VerticalAlignment="Center"
+                                                                           Text="{Binding Source={x:Static local:App.Lang}, Path=[Dialog.Remove]}" />
+                                                            </StackPanel>
+                                                        </MenuItem.Header>
+                                                    </MenuItem>
+                                                    <MenuItem Command="{Binding ClearIncludesListCommand}">
+                                                        <MenuItem.Header>
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <Viewbox Width="16" Height="16">
+                                                                    <Canvas Width="24" Height="24">
+                                                                        <Path Data="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21ZM7 13H17V11H7V13Z" Fill="Red" />
+                                                                    </Canvas>
+                                                                </Viewbox>
+                                                                <TextBlock Margin="5,0,0,0" VerticalAlignment="Center"
+                                                                           Text="{Binding Source={x:Static local:App.Lang}, Path=[Dialog.ClearAll]}" />
+                                                            </StackPanel>
+                                                        </MenuItem.Header>
+                                                    </MenuItem>
+                                                </Menu>
+                                                <ListBox Name="ListboxIncludelist" Grid.Row="1" BorderThickness="1"
+                                                         DragDrop.AllowDrop="True"
+                                                         ItemsSource="{Binding Source={x:Static Settings:SettingsFile.Instance}, Path=Includes}">
+                                                    <ListBox.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <Grid ColumnDefinitions="*,40">
+                                                                <TextBlock Grid.Column="0" Text="{Binding Path}" VerticalAlignment="Center" />
+                                                                <CheckBox Grid.Column="1" IsChecked="{Binding IsReference}" VerticalAlignment="Center"
+                                                                          ToolTip.Tip="{Binding Source={x:Static local:App.Lang}, Path=[MainWindow.Settings.ReferenceDirectoryTooltip]}" />
+                                                            </Grid>
+                                                        </DataTemplate>
+                                                    </ListBox.ItemTemplate>
+                                                </ListBox>
+                                            </Grid>
                                             <StackPanel Grid.Row="2">
                                                 <TextBlock Margin="5" TextWrapping="Wrap" Foreground="{actipro:ThemeResource ControlBackgroundBrushSolidWarning}"
                                                            Text="{Binding Source={x:Static local:App.Lang}, Path=[MainWindow.Settings.DragDropHint]}" />

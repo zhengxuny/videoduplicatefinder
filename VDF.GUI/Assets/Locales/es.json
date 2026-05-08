@@ -267,6 +267,8 @@
 	"MainWindow.Settings.ScanAgainstNonExistingFiles": "Escanear contra archivos no existentes",
 	"MainWindow.Settings.ScanAgainstNonExistingFilesTooltip": "Si está marcado, se incluyen archivos no existentes que tienen toda la información necesaria",
 	"MainWindow.Settings.SearchDirectories": "Directorios de búsqueda",
+	"MainWindow.Settings.Reference": "Ref",
+	"MainWindow.Settings.ReferenceDirectoryTooltip": "Los directorios de referencia NO se comparan internamente — solo sirven como fuente de datos para detectar duplicados en directorios no referenciados. Activar esta opción omite comparaciones internas dentro del directorio, ahorrando CPU y reduciendo el ruido en los resultados.",
 	"MainWindow.Settings.ShowAudioColumn": "Mostrar columna de audio¹",
 	"MainWindow.Settings.ShowDurationColumn": "Mostrar columna de duración¹",
 	"MainWindow.Settings.ShowFormatColumn": "Mostrar columna de formato¹",

@@ -267,6 +267,8 @@
 	"MainWindow.Settings.ScanAgainstNonExistingFiles": "扫描不存在的文件",
 	"MainWindow.Settings.ScanAgainstNonExistingFilesTooltip": "选中后，将包含不存在但拥有完整信息的文件",
 	"MainWindow.Settings.SearchDirectories": "搜索目录",
+	"MainWindow.Settings.Reference": "参照",
+	"MainWindow.Settings.ReferenceDirectoryTooltip": "参照目录不会进行内部自查——它们仅作为数据源，用于检测非参照目录中的重复项。勾选后可跳过目录内部的比对，节省CPU并减少扫描结果中的干扰。",
 	"MainWindow.Settings.ShowAudioColumn": "显示音频列¹",
 	"MainWindow.Settings.ShowDurationColumn": "显示时长列¹",
 	"MainWindow.Settings.ShowFormatColumn": "显示格式列¹",

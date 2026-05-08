@@ -267,6 +267,8 @@
 	"MainWindow.Settings.ScanAgainstNonExistingFiles": "Analyser les fichiers inexistants",
 	"MainWindow.Settings.ScanAgainstNonExistingFilesTooltip": "Si coché, les fichiers inexistants qui ont toutes les informations nécessaires sont inclus",
 	"MainWindow.Settings.SearchDirectories": "Répertoires de recherche",
+	"MainWindow.Settings.Reference": "Réf",
+	"MainWindow.Settings.ReferenceDirectoryTooltip": "Les répertoires de référence ne sont PAS comparés en interne — ils servent uniquement de source de données pour détecter les doublons dans les répertoires non référencés. Activer cette option ignore les comparaisons internes, économisant du CPU et réduisant le bruit dans les résultats.",
 	"MainWindow.Settings.ShowAudioColumn": "Afficher la colonne audio¹",
 	"MainWindow.Settings.ShowDurationColumn": "Afficher la colonne durée¹",
 	"MainWindow.Settings.ShowFormatColumn": "Afficher la colonne format¹",

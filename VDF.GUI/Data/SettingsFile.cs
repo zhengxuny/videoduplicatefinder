@@ -27,6 +27,37 @@ using VDF.GUI.ViewModels;
 namespace VDF.GUI.Data {
 	public enum ThumbnailDoubleClickAction { OpenFile, OpenThumbnailComparer }
 
+	public class ScanDirectory : ReactiveObject {
+		string _Path = string.Empty;
+		[JsonPropertyName("path")]
+		public string Path {
+			get => _Path;
+			set => this.RaiseAndSetIfChanged(ref _Path, value);
+		}
+		bool _IsReference;
+		[JsonPropertyName("isReference")]
+		public bool IsReference {
+			get => _IsReference;
+			set => this.RaiseAndSetIfChanged(ref _IsReference, value);
+		}
+		public ScanDirectory() { }
+		public ScanDirectory(string path, bool isReference = false) {
+			Path = path;
+			IsReference = isReference;
+		}
+
+		public override bool Equals(object? obj) =>
+			obj switch {
+				ScanDirectory other => string.Equals(Path, other.Path, StringComparison.OrdinalIgnoreCase),
+				string str => string.Equals(Path, str, StringComparison.OrdinalIgnoreCase),
+				_ => false
+			};
+
+		public override int GetHashCode() => Path.ToUpperInvariant().GetHashCode();
+
+		public static implicit operator ScanDirectory(string path) => new(path);
+	}
+
 	public class SettingsFile : ReactiveObject {
 		private static SettingsFile? instance;
 		private static string? settingsPath;
@@ -57,7 +88,7 @@ namespace VDF.GUI.Data {
 		}
 
 		[JsonPropertyName("Includes")]
-		public ObservableCollection<string> Includes { get; set; } = new();
+		public ObservableCollection<ScanDirectory> Includes { get; set; } = new();
 		[JsonPropertyName("Blacklists")]
 		public ObservableCollection<string> Blacklists { get; set; } = new();
 		string _LastCustomSelectExpression = string.Empty;
@@ -509,6 +540,12 @@ namespace VDF.GUI.Data {
 			path = ResolveSettingsPath(path);
 			if (!File.Exists(path)) return;
 			instance = JsonSerializer.Deserialize<SettingsFile>(File.ReadAllBytes(path));
+			if (instance != null && instance.Includes.Count > 0 && instance.Includes[0] is string) {
+				var oldList = instance.Includes.Select(s => new ScanDirectory(s)).ToList();
+				instance.Includes.Clear();
+				foreach (var item in oldList)
+					instance.Includes.Add(item);
+			}
 		}
 
 		static bool LoadOldSettings(string? path) {
@@ -518,7 +555,7 @@ namespace VDF.GUI.Data {
 			using var reader = XmlReader.Create(path, xmlSettings);
 			var xDoc = XDocument.Load(reader);
 			foreach (var n in xDoc.Descendants("Include"))
-				Instance.Includes.Add(n.Value);
+				Instance.Includes.Add(new ScanDirectory(n.Value));
 			foreach (var n in xDoc.Descendants("Exclude"))
 				Instance.Blacklists.Add(n.Value);
 			foreach (var n in xDoc.Descendants("Percent"))

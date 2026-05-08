@@ -33,6 +33,12 @@ namespace VDF.CLI.Commands {
 			AllowMultipleArgumentsPerToken = false
 		};
 
+		internal static readonly Option<string[]> Reference = new("--reference", "-r") {
+			Description = "Directory to use as reference only (no internal comparison). Can be specified multiple times.",
+			Arity = ArgumentArity.ZeroOrMore,
+			AllowMultipleArgumentsPerToken = false
+		};
+
 		internal static readonly Option<byte> Threshold = new("--threshold") {
 			Description = "Hash difference threshold (0–10, lower = stricter). Default: 5.",
 			DefaultValueFactory = _ => (byte)5
@@ -132,6 +138,10 @@ namespace VDF.CLI.Commands {
 			if (excludes != null)
 				foreach (var p in excludes) s.BlackList.Add(p);
 
+			var references = r.GetValue(Reference);
+			if (references != null)
+				foreach (var p in references) s.ReferenceList.Add(p);
+
 			s.Threshhold = r.GetValue(Threshold);
 			s.Percent = r.GetValue(Percent);
 			s.MaxDegreeOfParallelism = r.GetValue(Parallelism);
@@ -158,6 +168,7 @@ namespace VDF.CLI.Commands {
 
 		internal static void AddScanOptions(Command cmd) {
 			cmd.Options.Add(Include);
+			cmd.Options.Add(Reference);
 			cmd.Options.Add(Exclude);
 			cmd.Options.Add(Threshold);
 			cmd.Options.Add(Percent);

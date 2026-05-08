@@ -155,7 +155,7 @@ namespace VDF.GUI.ViewModels {
 
 		public ReactiveCommand<ListBox, Action> RemoveIncludesFromListCommand => ReactiveCommand.Create<ListBox, Action>(lbox => {
 			while (lbox.SelectedItems?.Count > 0)
-				SettingsFile.Instance.Includes.Remove((string)lbox.SelectedItems[0]!);
+				SettingsFile.Instance.Includes.Remove((ScanDirectory)lbox.SelectedItems[0]!);
 			return null!;
 		});
 

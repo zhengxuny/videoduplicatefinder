@@ -24,6 +24,7 @@ namespace VDF.Core {
 		// collection properties aren't repopulated by the default object converter).
 		public HashSet<string> IncludeList { get; set; } = new HashSet<string>();
 		public HashSet<string> BlackList { get; set; } = new HashSet<string>();
+		public HashSet<string> ReferenceList { get; set; } = new HashSet<string>();
 
 		public bool IgnoreReadOnlyFolders;
 		public bool IgnoreReparsePoints;
